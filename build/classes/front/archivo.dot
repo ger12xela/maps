@@ -1,0 +1,5 @@
+digraph Grafo {
+    size="25"
+		node [shape = circle];
+
+}

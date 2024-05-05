@@ -1,0 +1,19 @@
+digraph Grafo {
+    size="60"
+		node [shape = circle];
+AltaVerapaz->SantaMaríadeJesús;
+SantaLucíaMilpasAltas;
+Quiché->SantaLucíaMilpasAltas;
+SanLucasSacatepéquez;
+Huehuetenango->SanLucasSacatepéquez;
+SanBartoloméMilpasAltas->Quiché;
+Guatemala->Quetzaltenango;
+SanMarcos->Quetzaltenango ,SanBartoloméMilpasAltas;
+Retalhuleu->Quetzaltenango ,SanLucasSacatepéquez;
+Quetzaltenango->Huehuetenango ,Retalhuleu;
+CiudadVieja;
+Petén->CiudadVieja;
+SantaMaríadeJesús;
+Suchitepequez->Guatemala;
+Suchitepequez,Guatemala,Quetzaltenango,Retalhuleu,SanLucasSacatepéquez[color=red]
+}
