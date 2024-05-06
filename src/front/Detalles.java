@@ -14,6 +14,10 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import arbolB.ArbolB;
+import arbolB.NodoBInternal;
+
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 
@@ -22,7 +26,7 @@ public class Detalles extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	public static final String DIBUJAR = "DIBUJAR";
-	public static final String CERRAR = "DIBUJAR";
+	public static final String CERRAR = "CERRAR";
 	
 	private JPanel contentPane;
 	List<PRutas> caminos;
@@ -45,7 +49,7 @@ public class Detalles extends JFrame implements ActionListener {
 	 * Create the frame.
 	 */
 	public Detalles() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 750, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -104,10 +108,24 @@ public class Detalles extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals(CERRAR)) {
 			this.dispose();
+		}else if(e.getActionCommand().equals(DIBUJAR)) {
+			crearArbolB();
+			ArbolBPresentacion ABP = new ArbolBPresentacion();
+			ABP.setVisible(true);
+			ABP.pintar();
 		}
 		
 	}
 	
+	private void crearArbolB() {
+		// TODO Auto-generated method stub
+		ArbolB AB = new ArbolB(3);
+		for (Arista nodos : caminos.get(index).camino) {
+			NodoBInternal tmp = new NodoBInternal(nodos.getClave(), nodos.getDestino().toString());
+			AB.insertar(tmp);
+		}		
+		AB.verArbol();
+	}
 	public void rellenarTablaL() {
 		
 		lblOrigen.setText("Origen: "+ caminos.get(index).inicial.dato.toString());

@@ -29,4 +29,12 @@ public class Arista {
 	public Object getDestino() {
 		return destino;
 	}
+	public int getClave() {
+		char l[] = destino.toString().toCharArray();
+		int clave=0;
+		for (char c : l) {
+			clave += c;
+		}
+		return clave;
+	}
 }

@@ -39,6 +39,7 @@ public class Reloj extends Thread  {
 	
 	public void setHora(int hora) {
 		this.hora = hora;
+		texto.setText(hora+":"+"00"+":"+"00");
 	}
 	
 	public void detener(boolean avanzar) {

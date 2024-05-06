@@ -31,18 +31,23 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextField;
 
 public class Principal extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
 	//agregando botones 
-	public static final String CARGAR_RUTAS = "RUTAS";
+	public static final String CARGAR_RUTAS = "CARGAR_RUTAS";
 	public static final String CARGAR_DEMORAS = "DEMORAS";
 	public static final String INCIAR = "INCIAR";
 	public static final String PINTAR = "PINTAR";
 	public static final String VER_DETALLES = "VER_DETALLES";
 	public static final String ORDENAR = "ORDENAR";
+	public static final String RUTAS = "RUTAS";
+	public static final String DETENER_R = "DETENER_R";
+	public static final String CAMBIAR_H = "CAMBIAR_H";
+	public static final String CONTINUAR_H = "CONTINUAR_H";
 	
 	Detalles Detalles;
 	Grafo rutas = new Grafo(this);
@@ -65,6 +70,10 @@ public class Principal extends JFrame implements ActionListener {
 	private JComboBox comboBoxRutas;
 	private JButton btnVerDetalles;
 	private JComboBox comboBoxSegun;
+	private JButton btnDetenR;
+	private JButton btnCambiarH;
+	private JButton btnContinuarH;
+	private JTextField textFieldHora;
 	
 	
 	public Principal() {
@@ -136,15 +145,15 @@ public class Principal extends JFrame implements ActionListener {
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(0, 146, 190, 54);
+		panel.setBounds(534, 11, 190, 54);
 		panelOpciones.add(panel);
 		panel.setPreferredSize(new Dimension(10, 60));
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		lblReloj = new JLabel("");
-		lblReloj.setFont(new Font("Times New Roman", Font.BOLD, 35));
+		panel.add(lblReloj, BorderLayout.CENTER);
+		lblReloj.setFont(new Font("Tahoma", Font.BOLD, 35));
 		lblReloj.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblReloj);
 		
 		JLabel lblNewLabel_1 = new JLabel("Rutas Encontradas Segun:");
 		lblNewLabel_1.setBounds(302, 14, 172, 16);
@@ -152,6 +161,8 @@ public class Principal extends JFrame implements ActionListener {
 		
 		comboBoxRutas = new JComboBox();
 		comboBoxRutas.setBounds(303, 76, 171, 25);
+		comboBoxRutas.setActionCommand(RUTAS);
+		comboBoxRutas.addActionListener(this);
 		panelOpciones.add(comboBoxRutas);
 		
 		comboBoxSegun = new JComboBox();
@@ -161,6 +172,29 @@ public class Principal extends JFrame implements ActionListener {
 		comboBoxSegun.setActionCommand(ORDENAR);
 		comboBoxSegun.addActionListener(this);
 		panelOpciones.add(comboBoxSegun);
+		
+		btnDetenR = new JButton("Detener Reloj");
+		btnDetenR.setBounds(534, 75, 142, 26);
+		btnDetenR.setActionCommand(DETENER_R);
+		btnDetenR.addActionListener(this);
+		panelOpciones.add(btnDetenR);
+		
+		btnCambiarH = new JButton("Cambiar Hora");
+		btnCambiarH.setBounds(534, 109, 142, 26);
+		btnCambiarH.setActionCommand(CAMBIAR_H);
+		btnCambiarH.addActionListener(this);
+		panelOpciones.add(btnCambiarH);
+		
+		btnContinuarH = new JButton("Continuar Hora");
+		btnContinuarH.setBounds(534, 148, 142, 26);
+		btnContinuarH.setActionCommand(CONTINUAR_H);
+		btnContinuarH.addActionListener(this);
+		panelOpciones.add(btnContinuarH);
+		
+		textFieldHora = new JTextField();
+		textFieldHora.setBounds(688, 112, 36, 20);
+		panelOpciones.add(textFieldHora);
+		textFieldHora.setColumns(10);
 		
 		panelDibujo = new JPanel();
 		contentPane.add(panelDibujo, BorderLayout.CENTER);
@@ -209,25 +243,47 @@ public class Principal extends JFrame implements ActionListener {
 			verDetalles();
 						
 		}else if(e.getActionCommand().equals(INCIAR)) {// Boton iniciar*********************
-			rutas.setCaminos(null);
-			if(rutas != null) {
-				rutas.encontarRutas(null, comboBoxOrigen.getSelectedItem(), comboBoxDestino.getSelectedItem(), null);
+			if(comboBoxOrigen.getSelectedIndex()!=-1) {
+				encontrarRutas(comboBoxOrigen.getSelectedItem(),comboBoxDestino.getSelectedItem());
 			}
-			DG.DibujarInicial(rutas.toString()+rutas.mejorR());
-			ajustarComboBoxRutas();
 			
 		}else if(e.getActionCommand().equals(PINTAR)) {// Boton pintar****************************
 			pintar();
-
 		}
 		else if(e.getActionCommand().equals(ORDENAR)) {
 			ajustarComboBoxRutas();
 			
+		}else if(e.getActionCommand().equals(RUTAS)) {
+			DG.DibujarInicial(rutas.toString()+rutas.mejorR(comboBoxRutas.getSelectedIndex()));
+			
+		}else if(e.getActionCommand().equals(DETENER_R)) {
+			reloj.detener(false);
+		}else if(e.getActionCommand().equals(CAMBIAR_H)) {
+			
+			if((Integer.parseInt(textFieldHora.getText())>=0) && Integer.parseInt(textFieldHora.getText())<=24 ) {
+				
+				reloj.setHora(Integer.parseInt(textFieldHora.getText()));
+			}
+			
+		}else if(e.getActionCommand().equals(CONTINUAR_H)) {
+			reloj.detener(false);
+			reloj.detener(true);
+			reloj = new Reloj(lblReloj);
+			reloj.comenzar();
 		}
 	}
 	
+	public void encontrarRutas( Object origen, Object destino) {
+		rutas.setCaminos(null);
+		if(rutas != null) {
+			rutas.encontarRutas(null, origen , destino , null);
+		}
+		DG.DibujarInicial(rutas.toString()+rutas.mejorR(comboBoxRutas.getSelectedIndex()));
+		ajustarComboBoxRutas();
+	}
+	
+	
 	private void verDetalles() {
-		// TODO Auto-generated method stub
 		if(pr !=null) {
 			Detalles = new Detalles(pr, comboBoxRutas.getSelectedIndex());
 			Detalles.setVisible(true);
@@ -257,10 +313,9 @@ public class Principal extends JFrame implements ActionListener {
 			pr = rutas.getCaminos();
 			for (PRutas pRutas : pr) {
 				pRutas.ordenamiento = comboBoxSegun.getSelectedIndex();
-				System.out.println(comboBoxSegun.getSelectedIndex());
 			}
 			Collections.sort(pr);
-			for (PRutas pri : pr ) {
+			for (PRutas pri : pr ) {// Corregir presentacion **********************************
 				comboBoxRutas.addItem(pri.distanciaTotal);
 			}
 		}

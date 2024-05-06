@@ -178,8 +178,14 @@ public class Grafo {
 					
 					tmppos = tmppos.siguiente; 
 				}				
+				if(listR != null) {
+					if(listR.size() > 0) {
+						listR.remove(listR.size() -1);
+					}				
+				}
 			}
 		}
+		
 		if(posiblesRutas !=null) {
 			Collections.sort(posiblesRutas);
 		}
@@ -231,12 +237,15 @@ public class Grafo {
 		return cadena;
 	}
 	
-	public String mejorR() {
+	public String mejorR(int index) {
 		String nuevo = "";
+		if(index < 0) {
+			index = 0;
+		}
 		if(posiblesRutas != null) {
-			nuevo = posiblesRutas.get(0).inicial.dato.toString();
+			nuevo = posiblesRutas.get(index).inicial.dato.toString();
 
-			for (Arista p : posiblesRutas.get(0).camino) {
+			for (Arista p : posiblesRutas.get(index).camino) {
 				nuevo += ","+p.getDestino().toString();
 			}
 			nuevo+="[color=red]";

@@ -85,43 +85,43 @@ public class PRutas implements Comparable<PRutas>  {
 		// TODO Auto-generated method stub
 		if(ordenamiento == 0 ) {
 
-			if (this.rapidezAuto > otraRuta.distanciaTotal) {
-				return-1;
-			}
-			if (this.rapidezAuto <otraRuta.distanciaTotal) {
+			if (this.distanciaTotal > otraRuta.distanciaTotal) {
 				return 1;
+			}
+			if (this.distanciaTotal <otraRuta.distanciaTotal) {
+				return -1;
 			}
 		}
 		if(ordenamiento == 1) {
-			if (this.rapidezAuto > otraRuta.gastoCmax) {
-				return-1;
-			}
-			if (this.rapidezAuto <otraRuta.gastoCmax) {
+			if (this.gastoCmax > otraRuta.gastoCmax) {
 				return 1;
+			}
+			if (this.gastoCmax <otraRuta.gastoCmax) {
+				return -1;
 			}
 		}
 		if(ordenamiento == 2) {
 			if (this.rapidezAuto > otraRuta.gastoFmax) {
-				return-1;
+				return 1;
 			}
 			if (this.rapidezAuto <otraRuta.gastoFmax) {
-				return 1;
+				return -1;
 			}
 		}
 		if(ordenamiento == 3) {
 			if ((this.gastoCmax+this.distanciaTotal) > (otraRuta.distanciaTotal + otraRuta.gastoCmax)) {
-				return-1;
+				return 1;
 			}
 			if ((this.gastoCmax+this.distanciaTotal) <(otraRuta.distanciaTotal + otraRuta.gastoCmax)) {
-				return 1;
+				return -1;
 			}
 		}
 		if(ordenamiento == 4) {
 			if ((this.gastoFmax+this.distanciaTotal) > (otraRuta.distanciaTotal + otraRuta.gastoFmax)) {
-				return-1;
+				return 1;
 			}
 			if ((this.gastoFmax+this.distanciaTotal) <(otraRuta.distanciaTotal + otraRuta.gastoFmax)) {
-				return 1;
+				return -1;
 			}
 		}
 		return 0;

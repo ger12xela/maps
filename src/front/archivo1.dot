@@ -1,0 +1,11 @@
+digraph Grafo {
+    size="60"
+		node [shape = circle];
+  	node [shape = record,height=.1];
+node1[label =  "CiudadVieja "];
+node11[label =  "Mixco | Petén | SanMarcos "];
+node1 -> node11;
+node12[label =  "AltaVerapaz | SantaMaríadeJesús | SantaLucíaMilpasAltas "];
+node1 -> node12;
+
+}
