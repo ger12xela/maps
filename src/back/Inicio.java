@@ -9,7 +9,7 @@ public class Inicio {
 		Principal iniciar = new Principal();
 		iniciar.setVisible(true);
 		iniciar.iniciarR();
-		
+		System.out.println("es la true");
 		
 	}
 
